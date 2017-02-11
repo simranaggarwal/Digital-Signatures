@@ -1,32 +1,20 @@
 #include<stdio.h>
 #include<string.h>
 #include"sha1.h"
-// Signed variables are for wimps 
 #define uchar unsigned char 
 #define uint unsigned int 
-
-// DBL_INT_ADD treats two unsigned ints a and b as one 64-bit integer and adds c to it
 #define ROTLEFT(a,b) ((a << b) | (a >> (32-b))) 
 #define DBL_INT_ADD(a,b,c) if (a > 0xffffffff - c) ++b; a += c; 
-/*typedef struct { 
-   uchar data[64]; 
-   uint datalen; 
-   uint bitlen[2]; 
-   uint state[5]; 
-   uint k[4]; 
-} SHA1_CTX; 
-*/
+
 void sha1_transform(SHA1_CTX *ctx, uchar data[]) 
 {  
-   uint a,b,c,d,e,i,j,t,m[80]; 
-      
+   uint a,b,c,d,e,i,j,t,m[80];     
    for (i=0,j=0; i < 16; ++i, j += 4) 
       m[i] = (data[j] << 24) + (data[j+1] << 16) + (data[j+2] << 8) + (data[j+3]); 
    for ( ; i < 80; ++i) { 
       m[i] = (m[i-3] ^ m[i-8] ^ m[i-14] ^ m[i-16]); 
       m[i] = (m[i] << 1) | (m[i] >> 31); 
-   }  
-   
+   }     
    a = ctx->state[0]; 
    b = ctx->state[1]; 
    c = ctx->state[2]; 
@@ -109,8 +97,6 @@ void sha1_final(SHA1_CTX *ctx, uchar hash[])
    uint i; 
    
    i = ctx->datalen; 
-   
-   // Pad whatever data is left in the buffer. 
    if (ctx->datalen < 56) { 
       ctx->data[i++] = 0x80; 
       while (i < 56) 
@@ -123,8 +109,6 @@ void sha1_final(SHA1_CTX *ctx, uchar hash[])
       sha1_transform(ctx,ctx->data); 
       memset(ctx->data,0,56); 
    }  
-   
-   // Append to the padding the total message's length in bits and transform. 
    DBL_INT_ADD(ctx->bitlen[0],ctx->bitlen[1],8 * ctx->datalen); 
    ctx->data[63] = ctx->bitlen[0]; 
    ctx->data[62] = ctx->bitlen[0] >> 8; 
@@ -135,9 +119,6 @@ void sha1_final(SHA1_CTX *ctx, uchar hash[])
    ctx->data[57] = ctx->bitlen[1] >> 16;  
    ctx->data[56] = ctx->bitlen[1] >> 24; 
    sha1_transform(ctx,ctx->data); 
-   
-   // Since this implementation uses little endian byte ordering and MD uses big endian, 
-   // reverse all the bytes when copying the final state to the output hash. 
    for (i=0; i < 4; ++i) { 
       hash[i]    = (ctx->state[0] >> (24-i*8)) & 0x000000ff; 
       hash[i+4]  = (ctx->state[1] >> (24-i*8)) & 0x000000ff; 

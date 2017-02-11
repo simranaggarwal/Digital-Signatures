@@ -1,8 +1,8 @@
-#include<stdio.h> //printf
-#include<string.h>    //strlen
+#include<stdio.h> 
+#include<string.h> 
 #include<ctype.h>
-#include<sys/socket.h>    //socket
-#include<arpa/inet.h> //inet_addr
+#include<sys/socket.h>   
+#include<arpa/inet.h> 
 #include"sha1.h"
 #include"rsa.h" 
  
@@ -11,9 +11,7 @@ int main(int argc , char *argv[])
     int sock;
     struct sockaddr_in server;
 	char message[2000];
-long long int c[50];
-//long long int e;
-//long long int ne;
+	long long int c[50];
     char  server_reply[2000];
     char hash[2000];
     long long int sign[2000];
@@ -36,27 +34,26 @@ long long int c[50];
         return 1;
     }
      
-    puts("Connected\n");
-     
+    puts("Connected\n"); 
     while(1)
     {
         printf("Enter message : ");
         gets(message);
-	length=strlen(message);
-	sha1_init(&obj);
-	sha1_update(&obj,message,length);
-	sha1_final(&obj,hash);
-	printf("HASH: \n");
-	print_hash(hash);
+		length=strlen(message);
+		sha1_init(&obj);
+		sha1_update(&obj,message,length);
+		sha1_final(&obj,hash);
+		printf("HASH: \n");
+		print_hash(hash);
 
-	SieveOfEratosthenes();
-	printf("SIGNATURE: \n");
-	for(i=0;i<strlen(hash);i++)
-	{	
-	l1=modexp(((long int)hash[i]),d);
-	c[i]=(long long int)l1;
-	printf("%ld",c[i]);
-	}
+		SieveOfEratosthenes();
+		printf("SIGNATURE: \n");
+		for(i=0;i<strlen(hash);i++)
+		{	
+			l1=modexp(((long int)hash[i]),d);
+			c[i]=(long long int)l1;
+			printf("%ld",c[i]);
+		}
 
         if( send(sock, message, sizeof(message),0)  < 0)
         {
@@ -68,17 +65,16 @@ long long int c[50];
             puts("Send failed");
             return 1;
         }
-	if( send(sock , &e , sizeof(e) , 0) < 0)
+		if( send(sock , &e , sizeof(e) , 0) < 0)
         {
             puts("Send failed");
             return 1;
         }
-	if( send(sock , &n , sizeof(n) , 0) < 0)
+		if( send(sock , &n , sizeof(n) , 0) < 0)
         {
             puts("Send failed");
             return 1;
         }
-        //Receive a reply from the server
         if( recv(sock , server_reply , 2000 , 0) < 0)
         {
             puts("recv failed");
