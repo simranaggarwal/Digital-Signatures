@@ -1,2 +1,2 @@
 Hello 
-fromthe other side
+from the other side
