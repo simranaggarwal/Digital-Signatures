@@ -2,8 +2,8 @@ Implementation of Digital Signatures using C
 
 The project’s objective is to create a client-server network, to implement digital signature’s    (RSA) library for ensuring the authenticity of the client and to improve the performance using hash function (SHA-1).
 
-Prerequisites
-gcc 6.2 or above
+Requirements
+	gcc 6.2 or above
 
 Getting Started
 
@@ -22,7 +22,10 @@ On the client side, run the following commands on terminal:
 	gcc -c sha1.c -o sha1.o
 	gcc client.o sha1.o rsa.o -o client
 	./client
-	
+
+Scope of Improvement
+	Code can be updated to use standard RSA key length.
+
 License
-This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the LICENSE.md file for details
+	This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the LICENSE.md file for details
 
