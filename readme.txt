@@ -27,5 +27,5 @@ Scope of Improvement
 	Code can be updated to use standard RSA key length.
 
 License
-	This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the LICENSE.md file for details
+	This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the LICENSE.txt file for details
 
